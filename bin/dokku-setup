@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+LIB_DIR="/usr/local/lib/dokku-scripts"
+
+source "$LIB_DIR/common.sh"
+source "$LIB_DIR/config.sh"
+source "$LIB_DIR/init.sh"
+source "$LIB_DIR/db.sh"
+source "$LIB_DIR/app.sh"
+#source "$LIB_DIR/letsencrypt.sh"
+
+require_root
+require_args APP DOMAIN
+# TODO: Validation
+#require_app "$APP_TYPE"
+
+init_dokku "$DOMAIN" "$DOKKU_TAG" "$DATABASE"
+create_app "$APP"
+setup_db "$DATABASE" "$APP"
+deploy_app "$APP" "$DOMAIN"
+#enable_ssl "$APP" "$DOMAIN"
