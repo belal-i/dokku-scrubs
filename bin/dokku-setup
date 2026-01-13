@@ -26,10 +26,15 @@ FLAGS "$@" || exit $?
 eval set -- "${FLAGS_ARGV}"
 
 require_root
-# TODO
-#require_args FLAGS_app FLAGS_domain
-# TODO: Validation
-#require_app "${FLAGS_app}"
+# TODO: Improve validation
+if [[ -z "${FLAGS_app}" || -z "${FLAGS_domain}" ]]; then
+  log "--domain and --app are required."
+  exit 1
+fi
+if [[ ${FLAGS_letsencrypt} -eq ${FLAGS_TRUE} && -z "${FLAGS_email}" ]]; then
+  log "--email is required when setting --letsencrypt"
+  exit 1
+fi
 
 init_dokku "${FLAGS_domain}" "${FLAGS_dokku_tag}" "${FLAGS_database}"
 create_app "${FLAGS_app}"
