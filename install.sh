@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="https://github.com/belal-i/dokku-scripts.git"
+REPO_URL="https://github.com/belal-i/dokku-scrubs.git"
 INSTALL_ROOT="/usr/local"
-LIB_DIR="$INSTALL_ROOT/lib/dokku-scripts"
+LIB_DIR="$INSTALL_ROOT/lib/dokku-scrubs"
 BIN_DIR="$INSTALL_ROOT/bin"
 
-echo "[*] Installing dokku-scripts"
+echo "[*] Installing dokku-scrubs"
 
 # temp dir
 TMP_DIR="$(mktemp -d)"
@@ -21,7 +21,7 @@ wget -O "$LIB_DIR/shflags" https://raw.githubusercontent.com/kward/shflags/maste
 chmod 755 "$LIB_DIR/shflags"
 
 # install executable
-cp "$TMP_DIR/bin/dokku-setup" "$BIN_DIR/dokku-setup"
-chmod 755 "$BIN_DIR/dokku-setup"
+cp "$TMP_DIR/bin/dokku-scrubs" "$BIN_DIR/dokku-scrubs"
+chmod 755 "$BIN_DIR/dokku-scrubs"
 
-echo "[✓] Installed dokku-setup to $BIN_DIR"
+echo "[✓] Installed dokku-scrubs to $BIN_DIR"

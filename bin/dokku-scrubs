@@ -2,10 +2,10 @@
 
 set -euo pipefail
 
-LIB_DIR="/usr/local/lib/dokku-scripts"
+LIB_DIR="/usr/local/lib/dokku-scrubs"
 
 # Uncomment for local development only.
-#LIB_DIR="$HOME/.local/lib/dokku-scripts"
+#LIB_DIR="$HOME/.local/lib/dokku-scrubs"
 
 source "$LIB_DIR/config.sh"
 source "$LIB_DIR/common.sh"

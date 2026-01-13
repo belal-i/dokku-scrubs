@@ -3,7 +3,7 @@ set -eo pipefail
 usage() {
     cat <<EOF
 Usage:
-  dokku-setup -a <app> -d <domain> [options]
+  dokku-scrubs -a <app> -d <domain> [options]
 
 Required:
   -a <app>        Application type (wordpress, joomla, ...)
