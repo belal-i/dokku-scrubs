@@ -7,7 +7,7 @@ Currently supports WordPress and Joomla, hopefully more apps soon.
 ### Installing
 
 ```
-curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/develop/install.sh | bash
 ```
 
 ### Usage
