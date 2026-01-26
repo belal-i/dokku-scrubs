@@ -15,12 +15,12 @@ source "$LIB_DIR/app.sh"
 source "$LIB_DIR/letsencrypt.sh"
 source "$LIB_DIR/shflags"
 
-DEFINE_string  "app"         "$DEFAULT_APP" "the type of app to deploy" "a"
+DEFINE_string  "app"         "" "the type of app to deploy" "a"
 DEFINE_string  "appversion"  "$DEFAULT_APP_VERSION" "the app's image tag. default: $DEFAULT_APP_VERSION" "V"
-DEFINE_string  "domain"      "$DEFAULT_DOMAIN" "the domain of your server" "d"
+DEFINE_string  "domain"      "" "the domain of your server" "d"
 DEFINE_string  "dokku_tag"   "$DEFAULT_DOKKU_TAG" "version of Dokku to use. default: $DEFAULT_DOKKU_TAG" "t"
-DEFINE_string  "database"    "$DEFAULT_DATABASE" "the type of database to use. default: $DEFAULT_DATABASE" "D"
-DEFINE_string  "email"       "$DEFAULT_EMAIL" "email address for letsencrypt" "e"
+DEFINE_string  "database"    "" "the type of database to use, leave blank to use the app's default" "D"
+DEFINE_string  "email"       "" "email address for letsencrypt" "e"
 DEFINE_boolean "letsencrypt" false "pass this flag to enable SSL" "l"
 DEFINE_boolean "testcert"    false "pass this flag along with --letsencrypt, to get certs from the staging server" "T"
 
@@ -35,19 +35,27 @@ if [[ ${FLAGS_version} -eq ${FLAGS_TRUE} ]]; then
 fi
 
 require_root
+
 # TODO: Improve validation
 if [[ -z "${FLAGS_app}" || -z "${FLAGS_domain}" ]]; then
   log "--domain and --app are required."
   exit 1
 fi
+
 if [[ ${FLAGS_letsencrypt} -eq ${FLAGS_TRUE} && -z "${FLAGS_email}" ]]; then
   log "--email is required when setting --letsencrypt"
   exit 1
 fi
 
-init_dokku "${FLAGS_domain}" "${FLAGS_dokku_tag}" "${FLAGS_database}"
+if [[ -z "${FLAGS_database}" ]]; then
+  database="${APP_DB[${FLAGS_app}]}"
+else
+  database="${FLAGS_database}"
+fi
+
+init_dokku "${FLAGS_domain}" "${FLAGS_dokku_tag}" "$database"
 create_app "${FLAGS_app}"
-setup_db "${FLAGS_database}" "${FLAGS_app}"
+setup_db "$database" "${FLAGS_app}"
 mount_volume "${FLAGS_app}"
 deploy_app "${FLAGS_app}" "${FLAGS_domain}" "${FLAGS_appversion}"
 map_port "${FLAGS_app}"
