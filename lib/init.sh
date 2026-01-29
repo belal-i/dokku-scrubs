@@ -30,15 +30,6 @@ init_dokku() {
   wget -NP . "https://dokku.com/install/$dokku_tag/bootstrap.sh"
   DOKKU_TAG="$dokku_tag" bash bootstrap.sh
 
-  # SSH key
-  # TODO: Maybe don't even need this...
-  if [[ -f /root/.ssh/authorized_keys ]]; then
-    cat /root/.ssh/authorized_keys | dokku ssh-keys:add admin || true
-  else
-    log "No authorized_keys found, skipping SSH key import"
-  fi
-
-
   # Domain
   dokku domains:set-global "$domain"
 
