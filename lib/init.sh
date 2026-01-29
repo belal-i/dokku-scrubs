@@ -1,49 +1,11 @@
 set -eo pipefail
 
-usage() {
-    cat <<EOF
-Usage:
-  dokku-scrubs -a <app> -d <domain> [options]
-
-Required:
-  -a <app>        Application type (wordpress, joomla, ...)
-  -d <domain>     Domain name
-
-Optional:
-  -t <tag>        Dokku version tag
-  -p <db>         Database plugin (default: mysql)
-  -l              Enable SSL with letsencrypt (subject to rate limits)
-  -e              Email, required if running with -l
-EOF
-  exit 1
-}
-
 require_root() {
   if [[ $EUID -ne 0 ]]; then
     echo "This script must be run as root" >&2
     exit 1
   fi
 }
-
-# TODO
-#require_args() {
-#  local missing=()
-#
-#  for var in "$@"; do
-#    if [[ "$var" -eq "" ]]; then
-#      missing+=("$var")
-#    fi
-#  done
-#
-#  if (( ${#missing[@]} > 0 )); then
-#    echo "Error: missing required arguments:" >&2
-#    for m in "${missing[@]}"; do
-#      echo "  - $m" >&2
-#    done
-#    echo >&2
-#    usage
-#  fi
-#}
 
 install_plugin() {
   local plugin="$1"
