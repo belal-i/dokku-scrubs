@@ -18,7 +18,7 @@ source "$LIB_DIR/shflags"
 DEFINE_string  "app"         "" "the type of app to deploy" "a"
 DEFINE_string  "appversion"  "$DEFAULT_APP_VERSION" "the app's image tag. default: $DEFAULT_APP_VERSION" "V"
 DEFINE_string  "domain"      "" "the domain of your server" "d"
-DEFINE_string  "dokku_tag"   "$DEFAULT_DOKKU_TAG" "version of Dokku to use. default: $DEFAULT_DOKKU_TAG" "t"
+DEFINE_string  "dokkutag"   "$DEFAULT_DOKKU_TAG" "version of Dokku to use. default: $DEFAULT_DOKKU_TAG" "t"
 DEFINE_string  "database"    "" "the type of database to use, leave blank to use the app's default" "D"
 DEFINE_string  "email"       "" "email address for letsencrypt" "e"
 DEFINE_boolean "letsencrypt" false "pass this flag to enable SSL" "l"
@@ -53,7 +53,7 @@ else
   database="${FLAGS_database}"
 fi
 
-init_dokku "${FLAGS_domain}" "${FLAGS_dokku_tag}" "$database"
+init_dokku "${FLAGS_domain}" "${FLAGS_dokkutag}" "$database"
 create_app "${FLAGS_app}"
 setup_db "$database" "${FLAGS_app}"
 mount_volume "${FLAGS_app}"
