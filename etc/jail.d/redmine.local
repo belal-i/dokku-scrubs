@@ -1,0 +1,10 @@
+[redmine]
+
+enabled = true
+port = http,https
+filter = redmine
+logpath = /var/log/nginx/redmine-access.log
+
+findtime = 10m
+maxretry = 20
+bantime = 1h
