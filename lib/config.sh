@@ -75,7 +75,9 @@ APP_VOLUMES_drupal=(
   ["$BASE_STORAGE/drupal/themes"]="/var/www/html/themes"
   ["$BASE_STORAGE/drupal/profiles"]="/var/www/html/profiles"
 )
-APP_VOLUMES_redmine=()
+APP_VOLUMES_redmine=(
+  ["$BASE_STORAGE/redmine"]="/usr/src/redmine/files"
+)
 APP_VOLUMES_dolibarr=(
   ["$BASE_STORAGE/dolibarr/documents"]="/var/www/documents"
   ["$BASE_STORAGE/dolibarr/custom"]="/var/www/html/custom"
