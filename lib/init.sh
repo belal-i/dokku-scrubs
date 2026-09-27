@@ -11,7 +11,17 @@ install_plugin() {
   local plugin="$1"
   local url="$2"
   if ! dokku plugin:list | grep "$plugin"; then
-    dokku plugin:install "$url"
+
+    # Temporary fix, hold back dokku-mysql to older version
+    # until upstream bug is fixed.
+    # See https://github.com/dokku/dokku-mysql/issues/228
+    if [[ "$plugin" == "mysql" ]]; then
+      dokku plugin:install "$url" --committish 1.44.3
+
+    else
+      dokku plugin:install "$url"
+    fi
+
   else
     log "Plugin already installed: $plugin"
   fi
