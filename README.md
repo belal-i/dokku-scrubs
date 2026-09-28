@@ -14,6 +14,10 @@ website will be running within 5 minutes, powered by Dokku.
 * Multiple apps/subdomains on same host
 * Hopefully more soon ;-)
 
+### Requirements
+
+Ubuntu 22.04, 24.04 or 26.04
+
 ### Installing
 
 ```
