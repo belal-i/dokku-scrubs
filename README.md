@@ -22,7 +22,7 @@ Ubuntu 22.04, 24.04 or 26.04
 
 ```
 curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/master/install.sh \
-    | DOKKU_SCRUBS_VERSION=develop bash
+    | DOKKU_SCRUBS_VERSION=v0.8.2 bash
 ```
 
 ### Usage
