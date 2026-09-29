@@ -14,11 +14,15 @@ website will be running within 5 minutes, powered by Dokku.
 * Multiple apps/subdomains on same host
 * Hopefully more soon ;-)
 
+### Requirements
+
+Ubuntu 22.04, 24.04 or 26.04
+
 ### Installing
 
 ```
 curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/master/install.sh \
-    | DOKKU_SCRUBS_VERSION=v0.8.1 bash
+    | DOKKU_SCRUBS_VERSION=v0.8.2 bash
 ```
 
 ### Usage

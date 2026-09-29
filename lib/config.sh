@@ -1,4 +1,4 @@
-DOKKU_SCRUBS_VERSION="0.8.1"
+DOKKU_SCRUBS_VERSION="0.8.2"
 
 DOKKU_SCRUBS_ROOT="/usr/local"
 DOKKU_SCRUBS_BIN="$DOKKU_SCRUBS_ROOT/bin/dokku-scrubs"
@@ -7,7 +7,7 @@ DOKKU_SCRUBS_ETC="$DOKKU_SCRUBS_ROOT/etc"
 
 # Defaults
 DEFAULT_APP_VERSION="latest"
-DEFAULT_DOKKU_TAG="v0.38.30"
+DEFAULT_DOKKU_TAG="v0.38.31"
 DEFAULT_LETSENCRYPT=0
 
 BASE_STORAGE="/var/lib/dokku/data/storage"
@@ -75,7 +75,9 @@ APP_VOLUMES_drupal=(
   ["$BASE_STORAGE/drupal/themes"]="/var/www/html/themes"
   ["$BASE_STORAGE/drupal/profiles"]="/var/www/html/profiles"
 )
-APP_VOLUMES_redmine=()
+APP_VOLUMES_redmine=(
+  ["$BASE_STORAGE/redmine"]="/usr/src/redmine/files"
+)
 APP_VOLUMES_dolibarr=(
   ["$BASE_STORAGE/dolibarr/documents"]="/var/www/documents"
   ["$BASE_STORAGE/dolibarr/custom"]="/var/www/html/custom"
