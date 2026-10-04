@@ -10,6 +10,10 @@ LIB_DIR="$INSTALL_ROOT/lib/dokku-scrubs"
 BIN_DIR="$INSTALL_ROOT/bin"
 ETC_DIR="$INSTALL_ROOT/etc"
 
+echo "[*] Installing install requirement git"
+apt-get update
+apt-get install -y git
+
 echo "[*] Installing dokku-scrubs ($REF)"
 
 # temp dir
