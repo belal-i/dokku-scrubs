@@ -23,8 +23,8 @@ A publicly reachable VPS running either Ubuntu 22.04, 24.04 or 26.04 or Debian 1
 On your VPS, run:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/master/install.sh \
-    | DOKKU_SCRUBS_VERSION=v0.8.2 bash
+curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/develop/install.sh \
+    | DOKKU_SCRUBS_VERSION=develop bash
 ```
 
 ### Usage
