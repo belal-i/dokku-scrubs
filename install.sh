@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DEFAULT_REF=v0.8.2
+DEFAULT_REF=develop
 REF="${DOKKU_SCRUBS_VERSION:-$DEFAULT_REF}"
 
 REPO_URL="https://github.com/belal-i/dokku-scrubs.git"
@@ -9,6 +9,10 @@ INSTALL_ROOT="/usr/local"
 LIB_DIR="$INSTALL_ROOT/lib/dokku-scrubs"
 BIN_DIR="$INSTALL_ROOT/bin"
 ETC_DIR="$INSTALL_ROOT/etc"
+
+echo "[*] Installing install requirement git"
+apt-get update
+apt-get install -y git
 
 echo "[*] Installing dokku-scrubs ($REF)"
 
