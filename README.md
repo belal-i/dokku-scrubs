@@ -24,7 +24,7 @@ On your VPS, run:
 
 ```
 curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/master/install.sh \
-    | DOKKU_SCRUBS_VERSION=v0.8.2 bash
+    | DOKKU_SCRUBS_VERSION=v0.8.3 bash
 ```
 
 ### Usage
