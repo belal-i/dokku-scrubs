@@ -7,13 +7,14 @@ require_root() {
   fi
 }
 
-install_plugin() {
+ensure_plugin() {
   local plugin="$1"
   local url="$2"
+
   if ! dokku plugin:list | grep "$plugin"; then
     dokku plugin:install "$url"
   else
-    log "Plugin already installed: $plugin"
+    dokku plugin:update "$plugin" master
   fi
 }
 
@@ -75,6 +76,6 @@ init_dokku() {
   dokku domains:set-global "$global_domain"
 
   # Install needed plugins.
-  install_plugin "$database" "https://github.com/dokku/dokku-${database}.git"
-  install_plugin "letsencrypt" "https://github.com/dokku/dokku-letsencrypt.git"
+  ensure_plugin "$database" "https://github.com/dokku/dokku-${database}.git"
+  ensure_plugin "letsencrypt" "https://github.com/dokku/dokku-letsencrypt.git"
 }
