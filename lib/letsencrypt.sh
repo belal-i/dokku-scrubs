@@ -2,6 +2,7 @@ enable_ssl() {
   local app="$1"
   local email="$2"
   local testcert="$3"
+  local sslnoautorenew="$4"
 
   dokku letsencrypt:set "$app" email "$email"
 
@@ -10,4 +11,8 @@ enable_ssl() {
   fi
 
   dokku letsencrypt:enable "$app"
+
+  if [[ "$sslnoautorenew" -ne "$FLAGS_TRUE" ]]; then
+    dokku letsencrypt:cron-job --add
+  fi
 }

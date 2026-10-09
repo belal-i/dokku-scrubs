@@ -16,13 +16,15 @@ website will be running within 5 minutes, powered by Dokku.
 
 ### Requirements
 
-Ubuntu 22.04, 24.04 or 26.04
+A publicly reachable VPS running either Ubuntu 22.04, 24.04 or 26.04 or Debian 11+ x64
 
 ### Installing
 
+On your VPS, run:
+
 ```
 curl -fsSL https://raw.githubusercontent.com/belal-i/dokku-scrubs/master/install.sh \
-    | DOKKU_SCRUBS_VERSION=v0.8.2 bash
+    | DOKKU_SCRUBS_VERSION=v0.8.3 bash
 ```
 
 ### Usage
