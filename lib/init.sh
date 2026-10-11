@@ -36,12 +36,12 @@ init_fail2ban() {
   apt-get install -y fail2ban
   systemctl enable --now fail2ban
 
-  local filter="${DOKKU_SCRUBS_ETC}/filter.d/${app}.conf"
-  local jail="${DOKKU_SCRUBS_ETC}/jail.d/${app}.local"
+  local filter="${ETC_DIR}/filter.d/${app}.conf"
+  local jail="${ETC_DIR}/jail.d/${app}.local"
 
   # Install global fail2ban jails.
   install -Dm644 \
-    "$DOKKU_SCRUBS_ETC/jail.d/dokku-scrubs.local" \
+    "$ETC_DIR/jail.d/dokku-scrubs.local" \
     /etc/fail2ban/jail.d/dokku-scrubs.local
 
   # Install app specific fail2ban filter, if it exists.
