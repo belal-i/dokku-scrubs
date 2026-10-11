@@ -7,23 +7,14 @@ require_root() {
   fi
 }
 
-install_plugin() {
+ensure_plugin() {
   local plugin="$1"
   local url="$2"
+
   if ! dokku plugin:list | grep "$plugin"; then
-
-    # Temporary fix, hold back dokku-mysql to older version
-    # until upstream bug is fixed.
-    # See https://github.com/dokku/dokku-mysql/issues/228
-    if [[ "$plugin" == "mysql" ]]; then
-      dokku plugin:install "$url" --committish 1.44.3
-
-    else
-      dokku plugin:install "$url"
-    fi
-
+    dokku plugin:install "$url"
   else
-    log "Plugin already installed: $plugin"
+    dokku plugin:update "$plugin" master
   fi
 }
 
@@ -85,6 +76,6 @@ init_dokku() {
   dokku domains:set-global "$global_domain"
 
   # Install needed plugins.
-  install_plugin "$database" "https://github.com/dokku/dokku-${database}.git"
-  install_plugin "letsencrypt" "https://github.com/dokku/dokku-letsencrypt.git"
+  ensure_plugin "$database" "https://github.com/dokku/dokku-${database}.git"
+  ensure_plugin "letsencrypt" "https://github.com/dokku/dokku-letsencrypt.git"
 }
