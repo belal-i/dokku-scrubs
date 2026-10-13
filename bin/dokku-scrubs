@@ -3,9 +3,12 @@
 set -euo pipefail
 
 LIB_DIR="/usr/local/lib/dokku-scrubs"
+ETC_DIR="/usr/local/etc"
 
-# Uncomment for local development only.
+# If you are developing Dokku Scrubs and installing locally from source,
+# uncomment the following two lines before installing.
 #LIB_DIR="$HOME/.local/lib/dokku-scrubs"
+#ETC_DIR="$HOME/.local/etc"
 
 source "$LIB_DIR/config.sh"
 source "$LIB_DIR/common.sh"
@@ -28,6 +31,8 @@ DEFINE_boolean "letsencrypt"    false "pass this flag to enable SSL" "l"
 DEFINE_boolean "testcert"       false "pass this flag along with --letsencrypt, to get certs from the staging server" "T"
 DEFINE_boolean "secondary"      false "install as a secondary app on a subdomain"
 DEFINE_boolean "sslnoautorenew" false "don't auto renew certificate on expiry"
+DEFINE_boolean "local"          false "pass this flag to deploy your app on a local workstation"
+DEFINE_integer "nginxport"     "$DEFAULT_NGINX_PORT" "the port for Nginx to listen on. set it if running on a local workstation, otherwise leave it blank" "p"
 
 DEFINE_boolean "version" false "show version and exit" "v"
 
@@ -41,9 +46,40 @@ fi
 
 require_root
 
-# TODO: Improve validation
-if [[ -z "${FLAGS_app}" || -z "${FLAGS_domain}" ]]; then
-  log "--domain and --app are required."
+if [[ -z "${FLAGS_app}" ]]; then
+  log "--app is required."
+  exit 1
+fi
+
+if [[ -z "${FLAGS_domain}" && ${FLAGS_local} -ne ${FLAGS_TRUE} ]]; then
+  log "You must either specify --domain or pass the --local flag"
+  exit 1
+fi
+
+if [[ ${FLAGS_local} -eq ${FLAGS_TRUE} ]]; then
+  if [[ ! -z "${FLAGS_domain}" ]]; then
+    log "--local and --domain cannot be used together."
+    exit 1
+  fi
+
+  if [[ ${FLAGS_letsencrypt} -eq ${FLAGS_TRUE} ]]; then
+    log "--local and --letsencrypt cannot be used together."
+    exit 1
+  fi
+
+  if [[ ${FLAGS_wwwsubdomain} -eq ${FLAGS_TRUE} ]]; then
+    log "--local and --wwwsubdomain cannot be used together."
+    exit 1
+  fi
+
+  if [[ ${FLAGS_secondary} -eq ${FLAGS_TRUE} ]]; then
+    log "--local and --secondary cannot be used together."
+    exit 1
+  fi
+fi
+
+if [[ ($FLAGS_nginxport -lt 0) || ($FLAGS_nginxport -gt 65535) ]]; then
+  log "--nginxport must be between 0 and 65535."
   exit 1
 fi
 
@@ -63,7 +99,11 @@ else
   database="${FLAGS_database}"
 fi
 
-domain="${FLAGS_domain#www.}"
+if [[ ${FLAGS_local} -eq ${FLAGS_TRUE} ]]; then
+  domain="localhost"
+else
+  domain="${FLAGS_domain#www.}"
+fi
 
 init_system "${FLAGS_app}"
 init_dokku "${FLAGS_dokkutag}" "$database" "$domain"
@@ -72,7 +112,7 @@ setup_db "$database" "${FLAGS_app}"
 mount_volumes "${FLAGS_app}" "${FLAGS_appversion}"
 deploy_app "${FLAGS_app}" "$domain" \
   "${FLAGS_wwwsubdomain}" "${FLAGS_secondary}" "${FLAGS_appversion}"
-map_port "${FLAGS_app}"
+map_port "${FLAGS_app}" "${FLAGS_nginxport}"
 
 if [ ${FLAGS_letsencrypt} -eq ${FLAGS_TRUE} ]; then
   enable_ssl "${FLAGS_app}" "${FLAGS_email}" "${FLAGS_testcert}" "${FLAGS_sslnoautorenew}"

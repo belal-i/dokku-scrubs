@@ -85,12 +85,15 @@ mount_volumes() {
 
 map_port() {
   local app="$1"
+  local nginx_port="$2"
 
   if [[ ! -z "${APP_PORT_MAPPING[$app]}" ]]; then
-    local port="${APP_PORT_MAPPING[$app]}"
+    local app_port="${APP_PORT_MAPPING[$app]}"
+  else
+    local app_port="80"
+  fi
 
-    if ! dokku ports:report "$app" --ports-map | grep -qF "http:80:${port}"; then
-      dokku ports:add "$app" "http:80:${port}"
-    fi
+  if ! dokku ports:report "$app" --ports-map | grep -qF "http:${nginx_port}:${app_port}"; then
+    dokku ports:add "$app" "http:${nginx_port}:${app_port}"
   fi
 }
