@@ -22,9 +22,9 @@ init_system() {
   local app="$1"
 
   export DEBIAN_FRONTEND=noninteractive
-  apt-get update
+  apt_get update
 
-  apt-get install -y jq
+  apt_get install -y jq
 
   init_fail2ban "$app"
   # TODO: In the future, set up other system tools here.
@@ -33,7 +33,7 @@ init_system() {
 init_fail2ban() {
   local app="$1"
 
-  apt-get install -y fail2ban
+  apt_get install -y fail2ban
   systemctl enable --now fail2ban
 
   local filter="${DOKKU_SCRUBS_ETC}/filter.d/${app}.conf"
@@ -67,6 +67,8 @@ init_dokku() {
   log "Installing Dokku"
   log "  Dokku tag: $dokku_tag"
   log "  Database : $database"
+
+  wait_for_apt
 
   wget -NP . "https://dokku.com/install/${dokku_tag}/bootstrap.sh"
   DOKKU_TAG="$dokku_tag" bash bootstrap.sh

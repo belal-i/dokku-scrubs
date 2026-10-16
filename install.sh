@@ -11,8 +11,8 @@ BIN_DIR="$INSTALL_ROOT/bin"
 ETC_DIR="$INSTALL_ROOT/etc"
 
 echo "[*] Installing install requirement git"
-apt-get update
-apt-get install -y git
+apt-get -o DPkg::Lock::Timeout=300 update
+apt-get -o DPkg::Lock::Timeout=300 install -y git
 
 echo "[*] Installing dokku-scrubs ($REF)"
 
