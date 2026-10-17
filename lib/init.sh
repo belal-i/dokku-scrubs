@@ -63,13 +63,20 @@ init_dokku() {
   local dokku_tag="$1"
   local database="$2"
   local global_domain="$3"
+  local install_dokku_from_source="$4"
 
   log "Installing Dokku"
   log "  Dokku tag: $dokku_tag"
   log "  Database : $database"
 
-  wget -NP . "https://dokku.com/install/${dokku_tag}/bootstrap.sh"
-  DOKKU_TAG="$dokku_tag" bash bootstrap.sh
+  if [[ ${install_dokku_from_source} -eq ${FLAGS_TRUE} ]]; then
+    # using a branch results in installing from source
+    wget -NP . https://dokku.com/install/master/bootstrap.sh;
+    sudo DOKKU_BRANCH=master bash bootstrap.sh
+  else
+    wget -NP . "https://dokku.com/install/${dokku_tag}/bootstrap.sh"
+    DOKKU_TAG="$dokku_tag" bash bootstrap.sh
+  fi
 
   # Dokku has one global domain per server.
   # All apps managed by dokku-scrubs share this base domain.

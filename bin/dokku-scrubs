@@ -33,6 +33,7 @@ DEFINE_boolean "secondary"      false "install as a secondary app on a subdomain
 DEFINE_boolean "sslnoautorenew" false "don't auto renew certificate on expiry"
 DEFINE_boolean "local"          false "pass this flag to deploy your app on a local workstation"
 DEFINE_integer "nginxport"     "$DEFAULT_NGINX_PORT" "the port for Nginx to listen on. set it if running on a local workstation, otherwise leave it blank" "p"
+DEFINE_boolean "dokkufromsource" false "install Dokku from source instead of latest release"
 
 DEFINE_boolean "version" false "show version and exit" "v"
 
@@ -106,7 +107,7 @@ else
 fi
 
 init_system "${FLAGS_app}"
-init_dokku "${FLAGS_dokkutag}" "$database" "$domain"
+init_dokku "${FLAGS_dokkutag}" "$database" "$domain" "${FLAGS_dokkufromsource}"
 create_app "${FLAGS_app}"
 setup_db "$database" "${FLAGS_app}"
 mount_volumes "${FLAGS_app}" "${FLAGS_appversion}"
