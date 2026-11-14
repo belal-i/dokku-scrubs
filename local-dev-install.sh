@@ -4,6 +4,7 @@ set -euo pipefail
 INSTALL_ROOT="$HOME/.local"
 LIB_DIR="$INSTALL_ROOT/lib/dokku-scrubs"
 BIN_DIR="$INSTALL_ROOT/bin"
+ETC_DIR="$INSTALL_ROOT/etc"
 
 echo "[*] Installing dokku-scrubs"
 
@@ -13,7 +14,12 @@ cp -r ./lib/* "$LIB_DIR/"
 wget -O "$LIB_DIR/shflags" https://raw.githubusercontent.com/kward/shflags/master/shflags
 chmod 755 "$LIB_DIR/shflags"
 
+# copy config files
+mkdir -p "$ETC_DIR"
+cp -r ./etc/* "$ETC_DIR/"
+
 # install executable
+mkdir -p "$BIN_DIR"
 cp ./bin/dokku-scrubs "$BIN_DIR/dokku-scrubs"
 chmod 755 "$BIN_DIR/dokku-scrubs"
 
